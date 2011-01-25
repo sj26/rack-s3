@@ -1,0 +1,94 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://s3.amazonaws.com:80/rack-s3?marker=very/important/files/clear.pnf&max-keys=1
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      x-amz-id-2: 
+      - ffuJcBHfzAJ8xBN78wtnMwkXLLIxj9jOhV9AN0ShCLRpsiZVgKbWGts58jNTWj2A
+      content-type: 
+      - application/xml
+      server: 
+      - AmazonS3
+      date: 
+      - Tue, 25 Jan 2011 21:34:08 GMT
+      x-amz-request-id: 
+      - FEFB96BBB722B0FA
+      transfer-encoding: 
+      - chunked
+    body: |-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>rack-s3</Name><Prefix></Prefix><Marker>very/important/files/clear.pnf</Marker><MaxKeys>1</MaxKeys><IsTruncated>false</IsTruncated><Contents><Key>very/important/files/clear.png</Key><LastModified>2011-01-25T21:26:16.000Z</LastModified><ETag>&quot;71a50dbba44c78128b221b7df7bb51f1&quot;</ETag><Size>95</Size><Owner><ID>abc123</ID><DisplayName>rack-s3</DisplayName></Owner><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :head
+    uri: http://s3.amazonaws.com:80/rack-s3/very/important/files/clear.png
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      etag: 
+      - "\"71a50dbba44c78128b221b7df7bb51f1\""
+      last-modified: 
+      - Tue, 25 Jan 2011 21:26:16 GMT
+      x-amz-id-2: 
+      - lbRqqCOq4dt4LICQKxbE+zWaayYw3+4A+8RjijAYIe9uW+NgeEDRdsDo9bTJcIoC
+      content-type: 
+      - image/png
+      server: 
+      - AmazonS3
+      date: 
+      - Tue, 25 Jan 2011 21:34:08 GMT
+      content-length: 
+      - "95"
+      x-amz-request-id: 
+      - 5E4F5037D17C276D
+      accept-ranges: 
+      - bytes
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://s3.amazonaws.com:80/rack-s3/very/important/files/clear.png
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      etag: 
+      - "\"71a50dbba44c78128b221b7df7bb51f1\""
+      last-modified: 
+      - Tue, 25 Jan 2011 21:26:16 GMT
+      x-amz-id-2: 
+      - QYMU8xe/VbyO0TOaBIjxdekTAiPd47sWRFg+GfKwD7QweTyEouln1W/7hDj3F1cr
+      content-type: 
+      - image/png
+      server: 
+      - AmazonS3
+      date: 
+      - Tue, 25 Jan 2011 21:34:09 GMT
+      content-length: 
+      - "95"
+      x-amz-request-id: 
+      - 0BCD2B062BA0FAD6
+      accept-ranges: 
+      - bytes
+    body: !binary |
+      iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACn
+      ej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVO
+      RK5CYII=
+
+    http_version: "1.1"

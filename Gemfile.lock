@@ -8,13 +8,19 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.2.3)
     aws-s3 (0.6.2)
       builder
       mime-types
       xml-simple
     builder (3.0.0)
+    crack (0.1.8)
     mime-types (1.16)
     rack (1.2.1)
+    vcr (1.5.0)
+    webmock (1.6.2)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
     xml-simple (1.0.13)
 
 PLATFORMS
@@ -22,3 +28,5 @@ PLATFORMS
 
 DEPENDENCIES
   rack-s3!
+  vcr
+  webmock

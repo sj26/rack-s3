@@ -6,7 +6,6 @@ module Rack
 
     def initialize(app, options={})
       @app    = app
-      @prefix = options[:prefix]
       @bucket = options[:bucket]
 
       AWS::S3::Base.establish_connection!(
@@ -20,13 +19,7 @@ module Rack
 
     def _call(env)
       @env = env
-
-      if can_serve?
-        [ 200, headers, object.value ]
-      else
-        @app.call env
-      end
-
+      [ 200, headers, object.value ]
     rescue AWS::S3::NoSuchKey
       not_found
     end
@@ -42,16 +35,12 @@ module Rack
       }
     end
 
-    def can_serve?
-      path_info.index(@prefix) == 0
-    end
-
     def path_info
       @env['PATH_INFO']
     end
 
     def path
-      path_info.split('/').last
+      path_info[0...1] == '/' ? path_info[1..-1] : path_info
     end
 
     def object

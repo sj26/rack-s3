@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'rack/mock'
 
 class DummyApp
   def call(env)
@@ -10,18 +9,35 @@ end
 class RackS3Test < Test::Unit::TestCase
 
   def app
-    # HACK: Use your S3 credentials to run the test suite. Should use a
-    # recording library like VCR.
-    options = { :prefix => '/s3',
-                :bucket => 'rack-s3',
-                :access_key_id     => 'insert_access_key_here',
-                :secret_access_key => 'insert_secret_here' }
+    options = { :bucket            => 'rack-s3',
+                :access_key_id     => 'abc123',
+                :secret_access_key => 'abc123' }
 
-    Rack::MockRequest.new Rack::S3.new(DummyApp.new, options)
+    Rack::Builder.new do
+      use Rack::S3, options
+      run DummyApp.new
+    end
   end
 
-  def test_serve_files_from_s3
-    response = app.get '/s3/clear.png'
+  def request
+    Rack::MockRequest.new app
+  end
+
+  def test_return_not_found_for_nonexistent_keys
+    response = VCR.use_cassette 'not_found', :record => :none do
+      request.get '/not_found.png'
+    end
+
+    assert_equal 404, response.status
+    assert_equal "File not found: /not_found.png\n", response.body
+    assert_equal 'text/plain', response.headers['Content-Type']
+    assert_equal '31', response.headers['Content-Length']
+  end
+
+  def test_serve_keys_from_s3
+    response = VCR.use_cassette 'clear', :record => :none do
+      request.get '/clear.png'
+    end
 
     assert_equal 200, response.status
     assert_equal 'public; max-age=2592000', response.headers['Cache-Control']
@@ -32,19 +48,18 @@ class RackS3Test < Test::Unit::TestCase
     end
   end
 
-  def test_ignore_requests_outside_of_prefix
-    response = app.get '/ignore_me'
+  def test_serve_nested_keys_from_s3
+    response = VCR.use_cassette 'nested_clear', :record => :none do
+      request.get '/very/important/files/clear.png'
+    end
 
-    assert_equal 'Hello World', response.body
-  end
+    assert_equal 200, response.status
+    assert_equal 'public; max-age=2592000', response.headers['Cache-Control']
+    assert_not_nil response.body
 
-  def test_return_not_found_for_nonexistent_files
-    response = app.get '/s3/nil.png'
-
-    assert_equal 404, response.status
-    assert_equal "File not found: /s3/nil.png\n", response.body
-    assert_equal 'text/plain', response.headers['Content-Type']
-    assert_equal '28', response.headers['Content-Length']
+    %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
+      assert_not_nil response.headers[header]
+    end
   end
 
 end
