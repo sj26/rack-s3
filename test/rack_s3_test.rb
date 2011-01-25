@@ -19,46 +19,55 @@ class RackS3Test < Test::Unit::TestCase
     end
   end
 
-  def request
-    Rack::MockRequest.new app
-  end
-
-  def test_return_not_found_for_nonexistent_keys
-    response = VCR.use_cassette 'not_found', :record => :none do
-      request.get '/not_found.png'
+  context 'A request for a nonexistent key' do
+    subject do
+      VCR.use_cassette 'not_found', :record => :none do
+        Rack::MockRequest.new(app).get '/not_found.png'
+      end
     end
 
-    assert_equal 404, response.status
-    assert_equal "File not found: /not_found.png\n", response.body
-    assert_equal 'text/plain', response.headers['Content-Type']
-    assert_equal '31', response.headers['Content-Length']
-  end
+    should 'render a not found response' do
+      assert_equal 404, subject.status
+      assert_equal "File not found: /not_found.png\n", subject.body
 
-  def test_serve_keys_from_s3
-    response = VCR.use_cassette 'clear', :record => :none do
-      request.get '/clear.png'
-    end
-
-    assert_equal 200, response.status
-    assert_equal 'public; max-age=2592000', response.headers['Cache-Control']
-    assert_not_nil response.body
-
-    %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
-      assert_not_nil response.headers[header]
+      assert_equal 'text/plain', subject.headers['Content-Type']
+      assert_equal '31',         subject.headers['Content-Length']
     end
   end
 
-  def test_serve_nested_keys_from_s3
-    response = VCR.use_cassette 'nested_clear', :record => :none do
-      request.get '/very/important/files/clear.png'
+  context 'A request for a key' do
+    subject do
+      VCR.use_cassette 'clear', :record => :none do
+        Rack::MockRequest.new(app).get '/clear.png'
+      end
     end
 
-    assert_equal 200, response.status
-    assert_equal 'public; max-age=2592000', response.headers['Cache-Control']
-    assert_not_nil response.body
+    should 'render the file' do
+      assert_equal 200, subject.status
+      assert_equal 'public; max-age=2592000', subject.headers['Cache-Control']
+      assert_not_nil subject.body
 
-    %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
-      assert_not_nil response.headers[header]
+      %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
+        assert_not_nil subject.headers[header]
+      end
+    end
+  end
+
+  context 'A request for a nested key' do
+    subject do
+      VCR.use_cassette 'nested_clear', :record => :none do
+        Rack::MockRequest.new(app).get '/very/important/files/clear.png'
+      end
+    end
+
+    should 'render the file' do
+      assert_equal 200, subject.status
+      assert_equal 'public; max-age=2592000', subject.headers['Cache-Control']
+      assert_not_nil subject.body
+
+      %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
+        assert_not_nil subject.headers[header]
+      end
     end
   end
 
