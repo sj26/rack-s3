@@ -21,6 +21,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-s3
-  rack
   rack-s3!
