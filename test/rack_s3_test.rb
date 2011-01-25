@@ -1,11 +1,5 @@
 require 'test_helper'
 
-class DummyApp
-  def call(env)
-    [ 200, {}, [ "Hello World" ]]
-  end
-end
-
 class RackS3Test < Test::Unit::TestCase
 
   def app
@@ -15,9 +9,21 @@ class RackS3Test < Test::Unit::TestCase
 
     Rack::Builder.new do
       use Rack::S3, options
-      run DummyApp.new
+      run lambda { [ 200, {}, [ "Hello World" ]] }
     end
   end
+
+  def mapped_app
+    # #app isn't available inside the block below.
+    unmapped_app = app
+
+    Rack::Builder.new do
+      map '/mapped/app' do
+        run unmapped_app
+      end
+    end
+  end
+
 
   context 'A request for a nonexistent key' do
     subject do
@@ -68,6 +74,18 @@ class RackS3Test < Test::Unit::TestCase
       %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
         assert_not_nil subject.headers[header]
       end
+    end
+  end
+
+  context 'A request to a mapped app' do
+    subject do
+      VCR.use_cassette 'clear', :record => :none do
+        Rack::MockRequest.new(mapped_app).get '/mapped/app/clear.png'
+      end
+    end
+
+    should 'render the file' do
+      assert_equal 200, subject.status
     end
   end
 
