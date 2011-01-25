@@ -27,7 +27,7 @@ class RackS3Test < Test::Unit::TestCase
 
   context 'A request for a nonexistent key' do
     subject do
-      VCR.use_cassette 'not_found', :record => :none do
+      VCR.use_cassette 'not_found' do
         Rack::MockRequest.new(app).get '/not_found.png'
       end
     end
@@ -43,7 +43,7 @@ class RackS3Test < Test::Unit::TestCase
 
   context 'A request for a key' do
     subject do
-      VCR.use_cassette 'clear', :record => :none do
+      VCR.use_cassette 'clear' do
         Rack::MockRequest.new(app).get '/clear.png'
       end
     end
@@ -61,7 +61,7 @@ class RackS3Test < Test::Unit::TestCase
 
   context 'A request for a nested key' do
     subject do
-      VCR.use_cassette 'nested_clear', :record => :none do
+      VCR.use_cassette 'nested_clear' do
         Rack::MockRequest.new(app).get '/very/important/files/clear.png'
       end
     end
@@ -79,7 +79,7 @@ class RackS3Test < Test::Unit::TestCase
 
   context 'A request to a mapped app' do
     subject do
-      VCR.use_cassette 'clear', :record => :none do
+      VCR.use_cassette 'clear' do
         Rack::MockRequest.new(mapped_app).get '/mapped/app/clear.png'
       end
     end

@@ -12,6 +12,7 @@ class Test::Unit::TestCase
   VCR.config do |c|
     c.cassette_library_dir = 'test/vcr_cassettes'
     c.stub_with :webmock
+    c.default_cassette_options = { :record => :none }
   end
 
 end
