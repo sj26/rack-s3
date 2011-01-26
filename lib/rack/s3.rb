@@ -4,8 +4,7 @@ require 'aws/s3'
 module Rack
   class S3
 
-    def initialize(app, options={})
-      @app    = app
+    def initialize(options={})
       @bucket = options[:bucket]
 
       AWS::S3::Base.establish_connection!(

@@ -8,8 +8,7 @@ class RackS3Test < Test::Unit::TestCase
                 :secret_access_key => 'abc123' }
 
     Rack::Builder.new do
-      use Rack::S3, options
-      run lambda { [ 200, {}, [ "Hello World" ]] }
+      run Rack::S3.new(options)
     end
   end
 
