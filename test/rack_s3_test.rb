@@ -2,32 +2,21 @@ require 'test_helper'
 
 class RackS3Test < Test::Unit::TestCase
 
-  def app
-    options = { :bucket            => 'rack-s3',
-                :access_key_id     => 'abc123',
-                :secret_access_key => 'abc123' }
-
-    Rack::Builder.new do
-      run Rack::S3.new(options)
-    end
+  def mock_request(path)
+    Rack::MockRequest.new(app).get path
   end
 
-  def mapped_app
-    # #app isn't available inside the block below.
-    unmapped_app = app
-
-    Rack::Builder.new do
-      map '/mapped/app' do
-        run unmapped_app
-      end
-    end
+  def app
+    Rack::S3.new :bucket            => 'rack-s3',
+                 :access_key_id     => 'abc123',
+                 :secret_access_key => 'abc123'
   end
 
 
   context 'A request for a nonexistent key' do
     subject do
       VCR.use_cassette 'not_found' do
-        Rack::MockRequest.new(app).get '/not_found.png'
+        mock_request '/not_found.png'
       end
     end
 
@@ -43,7 +32,7 @@ class RackS3Test < Test::Unit::TestCase
   context 'A request for a key' do
     subject do
       VCR.use_cassette 'clear' do
-        Rack::MockRequest.new(app).get '/clear.png'
+        mock_request '/clear.png'
       end
     end
 
@@ -61,7 +50,7 @@ class RackS3Test < Test::Unit::TestCase
   context 'A request for a nested key' do
     subject do
       VCR.use_cassette 'nested_clear' do
-        Rack::MockRequest.new(app).get '/very/important/files/clear.png'
+        mock_request '/very/important/files/clear.png'
       end
     end
 
@@ -79,6 +68,13 @@ class RackS3Test < Test::Unit::TestCase
   context 'A request to a mapped app' do
     subject do
       VCR.use_cassette 'clear' do
+        unmapped_app = app
+        mapped_app   = Rack::Builder.new do
+                         map '/mapped/app' do
+                           run unmapped_app
+                         end
+                       end
+
         Rack::MockRequest.new(mapped_app).get '/mapped/app/clear.png'
       end
     end
