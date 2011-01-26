@@ -12,6 +12,10 @@ class RackS3Test < Test::Unit::TestCase
                  :secret_access_key => 'abc123'
   end
 
+  def teardown
+    AWS::S3::Base.disconnect!
+  end
+
 
   context 'A request for a nonexistent key' do
     subject do
@@ -81,6 +85,20 @@ class RackS3Test < Test::Unit::TestCase
 
     should 'render the file' do
       assert_equal 200, subject.status
+    end
+  end
+
+  context 'Without AWS credentials' do
+    subject do
+      app = Rack::S3.new :bucket => 'rack-s3'
+
+      Rack::MockRequest.new(app).get '/clear.png'
+    end
+
+    should 'not attempt to establish a connection to AWS' do
+      assert_raise AWS::S3::NoConnectionEstablished do
+        subject
+      end
     end
   end
 

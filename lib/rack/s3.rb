@@ -7,9 +7,16 @@ module Rack
     def initialize(options={})
       @bucket = options[:bucket]
 
+      establish_aws_connection(options[:access_key_id],
+                               options[:secret_access_key])
+    end
+
+    def establish_aws_connection(access_key_id, secret_access_key)
+      return unless access_key_id && secret_access_key
+
       AWS::S3::Base.establish_connection!(
-        :access_key_id     => options[:access_key_id],
-        :secret_access_key => options[:secret_access_key])
+        :access_key_id     => access_key_id,
+        :secret_access_key => secret_access_key)
     end
 
     def call(env)
