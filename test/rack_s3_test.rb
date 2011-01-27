@@ -3,7 +3,7 @@ require 'test_helper'
 class RackS3Test < Test::Unit::TestCase
 
   def mock_request(path)
-    Rack::MockRequest.new(app).get path
+    Rack::MockRequest.new(app).get path, :lint => true
   end
 
   def app
