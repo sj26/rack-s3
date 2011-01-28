@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rack-s3 (0.0.3)
+    rack-s3 (0.0.4)
       aws-s3
       rack
 
