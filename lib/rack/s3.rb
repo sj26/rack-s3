@@ -36,8 +36,7 @@ module Rack
       { 'Content-Type'   => about['content-type'],
         'Content-Length' => about['content-length'],
         'Etag'           => about['etag'],
-        'Last-Modified'  => about['last-modified'],
-        'Cache-Control'  => 'public; max-age=2592000'  # cache image for a month
+        'Last-Modified'  => about['last-modified']
       }
     end
 

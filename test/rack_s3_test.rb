@@ -42,7 +42,6 @@ class RackS3Test < Test::Unit::TestCase
 
     should 'render the file' do
       assert_equal 200, subject.status
-      assert_equal 'public; max-age=2592000', subject.headers['Cache-Control']
       assert_not_nil subject.body
 
       %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
@@ -60,7 +59,6 @@ class RackS3Test < Test::Unit::TestCase
 
     should 'render the file' do
       assert_equal 200, subject.status
-      assert_equal 'public; max-age=2592000', subject.headers['Cache-Control']
       assert_not_nil subject.body
 
       %w(Content-Type Last-Modified Last-Modified Etag).each do |header|
