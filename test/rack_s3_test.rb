@@ -67,6 +67,18 @@ class RackS3Test < Test::Unit::TestCase
     end
   end
 
+  context 'A request for a key containing spaces' do
+    subject do
+      VCR.use_cassette 'key_with_spaces' do
+        mock_request '/key%20with%20spaces.png'
+      end
+    end
+
+    should 'render the file' do
+      assert_equal 200, subject.status
+    end
+  end
+
   context 'A request to a mapped app' do
     subject do
       VCR.use_cassette 'clear' do

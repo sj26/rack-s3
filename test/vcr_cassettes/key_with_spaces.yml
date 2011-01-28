@@ -1,0 +1,94 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://s3.amazonaws.com:80/rack-s3?marker=key%20with%20spaces.pnf&max-keys=1
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      x-amz-id-2: 
+      - pOjjAQ3Dsd3tKoFG9Hg0tK81Incbd243yIOLFMGsI5NBIvshC/drTCXkvhjEM9Iq
+      content-type: 
+      - application/xml
+      server: 
+      - AmazonS3
+      date: 
+      - Fri, 28 Jan 2011 15:54:02 GMT
+      x-amz-request-id: 
+      - C8D0513081C9FC43
+      transfer-encoding: 
+      - chunked
+    body: |-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>rack-s3</Name><Prefix></Prefix><Marker>key with spaces.pnf</Marker><MaxKeys>1</MaxKeys><IsTruncated>true</IsTruncated><Contents><Key>key with spaces.png</Key><LastModified>2011-01-28T15:44:27.000Z</LastModified><ETag>&quot;71a50dbba44c78128b221b7df7bb51f1&quot;</ETag><Size>95</Size><Owner><ID>abc123</ID><DisplayName>rack-s3</DisplayName></Owner><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :head
+    uri: http://s3.amazonaws.com:80/rack-s3/key%20with%20spaces.png
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      etag: 
+      - "\"71a50dbba44c78128b221b7df7bb51f1\""
+      last-modified: 
+      - Fri, 28 Jan 2011 15:44:27 GMT
+      x-amz-id-2: 
+      - o6jvTK19hfPEaaUW22trSeS3+PB6FezxvxkQCWSpGmIO3lu/wtkPY1yyX3Ao7QGT
+      content-type: 
+      - image/png
+      server: 
+      - AmazonS3
+      date: 
+      - Fri, 28 Jan 2011 15:54:03 GMT
+      content-length: 
+      - "95"
+      x-amz-request-id: 
+      - 9DB4B86707E5AD05
+      accept-ranges: 
+      - bytes
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://s3.amazonaws.com:80/rack-s3/key%20with%20spaces.png
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      etag: 
+      - "\"71a50dbba44c78128b221b7df7bb51f1\""
+      last-modified: 
+      - Fri, 28 Jan 2011 15:44:27 GMT
+      x-amz-id-2: 
+      - e21vM8iCkWJlB3vRiaG2V9uXWC5fJEmqPCChC0XvwwfOagz8NGjeUMEM7IW24r+c
+      content-type: 
+      - image/png
+      server: 
+      - AmazonS3
+      date: 
+      - Fri, 28 Jan 2011 15:54:03 GMT
+      content-length: 
+      - "95"
+      x-amz-request-id: 
+      - E5EF8520D4E7D879
+      accept-ranges: 
+      - bytes
+    body: !binary |
+      iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACn
+      ej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVO
+      RK5CYII=
+
+    http_version: "1.1"

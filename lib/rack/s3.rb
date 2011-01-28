@@ -1,5 +1,6 @@
 require 'rack'
 require 'aws/s3'
+require 'cgi'
 
 module Rack
   class S3
@@ -41,7 +42,7 @@ module Rack
     end
 
     def path_info
-      @env['PATH_INFO']
+      CGI.unescape @env['PATH_INFO']
     end
 
     def path
