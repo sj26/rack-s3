@@ -5,4 +5,4 @@ want to bypass a perfectly good CDN? For stacking behind other middlewares, of
 course! Drop it behind Rack::Thumb for dynamic thumbnails without the mess of
 pregenerating.
 
-For more information, see http://lmarburger.github.com/rack-s3
+For more information, see [http://lmarburger.github.com/rack-s3](http://lmarburger.github.com/rack-s3)
