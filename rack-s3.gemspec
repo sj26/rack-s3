@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["larry@marburger.cc"]
   s.homepage    = "http://developmentastic.com"
   s.summary     = %q{A Rack::Static like middleware for serving assets from S3}
-  s.description = %q{Serve files from an S3 bucket as if they were local assets similar to Rack::Static.}
+  s.description = %q{Rack::S3 is a middleware for serving assets from an S3 bucket. Why would you want to bypass a perfectly good CDN? For stacking behind other middlewares, of course! Drop it behind Rack::Thumb for dynamic thumbnails without the mess of pregenerating.}
 
   s.add_dependency 'aws-s3'
   s.add_dependency 'rack'
