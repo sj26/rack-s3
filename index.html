@@ -1,94 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>s3.rb</title>
-  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
-</head>
-<body>
-<div id='container'>
-  <div id="background"></div>
-  <table cellspacing=0 cellpadding=0>
-  <thead>
-    <tr>
-      <th class=docs><h1>s3.rb</h1></th>
-      <th class=code></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr id='section-1'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-1">#</a>
-        </div>
-        <p> <strong>Rack::S3</strong> is a middleware for serving assets from an S3 bucket. Why would
- you want to bypass a perfectly good CDN? For stacking behind other
- middlewares, of course! Drop it behind Rack::Thumb for dynamic thumbnails
- without the mess of pregenerating.</p>
+<!DOCTYPE html>  <html> <head>   <title>s3.rb</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               s3.rb             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p><strong>Rack::S3</strong> is a middleware for serving assets from an S3 bucket. Why would
+you want to bypass a perfectly good CDN? For stacking behind other
+middlewares, of course! Drop it behind Rack::Thumb for dynamic thumbnails
+without the mess of pregenerating.</p>
 
 <h2>Usage</h2>
 
-<p> Rack::S3 assumes it&rsquo;s the final endpoint. Use <code>run</code> instead of <code>use</code> to mount
- it.</p>
+<p>Rack::S3 assumes it's the final endpoint. Use <code>run</code> instead of <code>use</code> to mount
+it.</p>
 
-<pre><code> use Rack::Thumb
- run Rack::S3.new(:bucket =&gt; 'my-special-things')
+<pre><code>use Rack::Thumb
+run Rack::S3.new(:bucket =&gt; 'my-special-things')
 </code></pre>
 
-<p> You probably don&rsquo;t want it responding to <em>all</em> requests, so mount it at a
- given path prefix using Rack::Builder.</p>
+<p>You probably don't want it responding to <em>all</em> requests, so mount it at a
+given path prefix using Rack::Builder.</p>
 
-<pre><code> use Thumber
+<pre><code>use Thumber
 
- class Thumber
-   def initialize(app)
-     @app = stack_app app
-   end
+class Thumber
+  def initialize(app)
+    @app = stack_app app
+  end
 
-   def stack_app(app)
-     Rack::Builder.new do
-       map '/thumb' do
-         use Rack::Thumb
-         run Rack::S3.new(:bucket =&gt; 'my-special-things')
-       end
+  def stack_app(app)
+    Rack::Builder.new do
+      map '/thumb' do
+        use Rack::Thumb
+        run Rack::S3.new(:bucket =&gt; 'my-special-things')
+      end
 
-       # Ignore all other requests
-       map '/' do
-         run lambda { |env| app.call env }
-       end
-     end
-   end
+      # Ignore all other requests
+      map '/' do
+        run lambda { |env| app.call env }
+      end
+    end
+  end
 
-   def call(env)
-     @app.call env
-   end
- end
-</code></pre>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre></pre></div>
-      </td>
-    </tr>
-    <tr id='section-2'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-2">#</a>
-        </div>
-        <p> <code>Rack::S3.new</code> needs a bucket name.</p>
+  def call(env)
+    @app.call env
+  end
+end
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p><code>Rack::S3.new</code> needs a bucket name.</p>
 
-<pre><code> Rack::S3.new :bucket =&gt; 'my-special-things'
+<pre><code>Rack::S3.new :bucket =&gt; 'my-special-things'
 </code></pre>
 
-<p> Optionally, it can take your S3 credentials and establish a connection to S3
- using AWS::S3.</p>
+<p>Optionally, it can take your S3 credentials and establish a connection to S3
+using AWS::S3.</p>
 
-<pre><code> Rack::S3.new :bucket =&gt; 'my-special-things',
-              :access_key_id    =&gt; 'abc123',
-              :secret_access_ke =&gt; 'itsasecret'
-</code></pre>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;rack&#39;</span>
+<pre><code>Rack::S3.new :bucket =&gt; 'my-special-things',
+             :access_key_id    =&gt; 'abc123',
+             :secret_access_ke =&gt; 'itsasecret'
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;rack&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;aws/s3&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;cgi&#39;</span>
 
@@ -100,47 +63,14 @@
 
       <span class="n">establish_aws_connection</span><span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:access_key_id</span><span class="o">]</span><span class="p">,</span>
                                <span class="n">options</span><span class="o">[</span><span class="ss">:secret_access_key</span><span class="o">]</span><span class="p">)</span>
-    <span class="k">end</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-3'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-3">#</a>
-        </div>
-        <p> Say great things about <code>call</code></p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">end</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Say great things about <code>call</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
       <span class="nb">dup</span><span class="o">.</span><span class="n">_call</span> <span class="n">env</span>
-    <span class="k">end</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-4'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-4">#</a>
-        </div>
-        <p> Say great things about <code>_call</code></p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">_call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">end</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Say great things about <code>_call</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
       <span class="vi">@env</span> <span class="o">=</span> <span class="n">env</span>
       <span class="o">[</span> <span class="mi">200</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">object</span><span class="o">.</span><span class="n">value</span> <span class="o">]</span>
     <span class="k">rescue</span> <span class="no">AWS</span><span class="o">::</span><span class="no">S3</span><span class="o">::</span><span class="no">NoSuchKey</span>
       <span class="n">not_found</span>
-    <span class="k">end</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-5'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-5">#</a>
-        </div>
-        <p> Say great things about <code>headers</code></p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">headers</span>
+    <span class="k">end</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Say great things about <code>headers</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">headers</span>
       <span class="n">about</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="n">about</span>
 
       <span class="p">{</span> <span class="s1">&#39;Content-Type&#39;</span>   <span class="o">=&gt;</span> <span class="n">about</span><span class="o">[</span><span class="s1">&#39;content-type&#39;</span><span class="o">]</span><span class="p">,</span>
@@ -148,57 +78,13 @@
         <span class="s1">&#39;Etag&#39;</span>           <span class="o">=&gt;</span> <span class="n">about</span><span class="o">[</span><span class="s1">&#39;etag&#39;</span><span class="o">]</span><span class="p">,</span>
         <span class="s1">&#39;Last-Modified&#39;</span>  <span class="o">=&gt;</span> <span class="n">about</span><span class="o">[</span><span class="s1">&#39;last-modified&#39;</span><span class="o">]</span>
       <span class="p">}</span>
-    <span class="k">end</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-6'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-6">#</a>
-        </div>
-        <p> Say great things about <code>path_info</code></p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">path_info</span>
+    <span class="k">end</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Say great things about <code>path_info</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">path_info</span>
       <span class="no">CGI</span><span class="o">.</span><span class="n">unescape</span> <span class="vi">@env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">]</span>
-    <span class="k">end</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-7'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-7">#</a>
-        </div>
-        <p> Say great things about <code>path</code></p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">path</span>
+    <span class="k">end</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Say great things about <code>path</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">path</span>
       <span class="n">path_info</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span> <span class="p">?</span> <span class="n">path_info</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="p">:</span> <span class="n">path_info</span>
-    <span class="k">end</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-8'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-8">#</a>
-        </div>
-        <p> Say great things about <code>object</code></p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">object</span>
+    <span class="k">end</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Say great things about <code>object</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">object</span>
       <span class="vi">@object</span> <span class="o">||=</span> <span class="no">AWS</span><span class="o">::</span><span class="no">S3</span><span class="o">::</span><span class="no">S3Object</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="vi">@bucket</span><span class="p">)</span>
-    <span class="k">end</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-9'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-9">#</a>
-        </div>
-        <p> Say great things about <code>not_found</code></p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">not_found</span>
+    <span class="k">end</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Say great things about <code>not_found</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">not_found</span>
       <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;File not found: </span><span class="si">#{</span> <span class="n">path_info</span> <span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
 
       <span class="o">[</span> <span class="mi">404</span><span class="p">,</span>
@@ -207,20 +93,8 @@
         <span class="o">[</span> <span class="n">body</span> <span class="o">]]</span>
     <span class="k">end</span>
 
-  <span class="kp">private</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-10'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-10">#</a>
-        </div>
-        <p> Ssshhh&hellip; this method is private. Say great things about
- <code>establish_aws_connection</code></p>
-
-      </td>
-      <td class=code>
-        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">establish_aws_connection</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span> <span class="n">secret_access_key</span><span class="p">)</span>
+  <span class="kp">private</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Ssshhh... this method is private. Say great things about
+<code>establish_aws_connection</code></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">establish_aws_connection</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span> <span class="n">secret_access_key</span><span class="p">)</span>
       <span class="k">return</span> <span class="k">unless</span> <span class="n">access_key_id</span> <span class="o">&amp;&amp;</span> <span class="n">secret_access_key</span>
 
       <span class="no">AWS</span><span class="o">::</span><span class="no">S3</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection!</span><span class="p">(</span>
@@ -229,9 +103,6 @@
     <span class="k">end</span>
 
   <span class="k">end</span>
-<span class="k">end</span></pre></div>
-      </td>
-    </tr>
-  </table>
-</div>
-</body>
+<span class="k">end</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
