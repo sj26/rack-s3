@@ -14,5 +14,5 @@ task :default => 'test'
 
 desc 'Generate documentation'
 task :doc do
-  sh 'rocco lib/rack/s3.rb && mv lib/rack/s3.html index.html'
+  sh 'docco lib/rack/s3.rb && mv docs/s3.html index.html && mv docs/* . && rm -rf docs'
 end
