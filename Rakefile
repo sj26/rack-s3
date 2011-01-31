@@ -11,3 +11,8 @@ end
 
 desc 'Default: run tests'
 task :default => 'test'
+
+desc 'Generate documentation'
+task :doc do
+  sh 'rocco lib/rack/s3.rb && mv lib/rack/s3.html index.html'
+end
