@@ -27,14 +27,14 @@
 #             use Rack::Thumb
 #             run Rack::S3.new(:bucket => 'my-special-things')
 #           end
-
+#
 #           # Ignore all other requests
 #           map '/' do
 #             run lambda { |env| app.call env }
 #           end
 #         end
 #       end
-
+#
 #       def call(env)
 #         @app.call env
 #       end
