@@ -1,24 +1,8 @@
 # Rack::S3
 
-Serve files from an S3 bucket as if they were local assets similar to
-Rack::Static. Stand up behind Rack::Thumb for fame and notoriety.
+**Rack::S3** is a middleware for serving assets from an S3 bucket. Why would you
+want to bypass a perfectly good CDN? For stacking behind other middlewares, of
+course! Drop it behind Rack::Thumb for dynamic thumbnails without the mess of
+pregenerating.
 
-
-## Usage
-
-    require 'myapp'
-    require 'rack/thumb'
-    require 'rack/s3'
-
-    use Rack::Thumb
-    use Rack::S3
-
-    run MyApp.new
-
-
-## Copyright
-
-Copyright (c) 2011 Larry Marburger. See [LICENSE] for details.
-
-
-[LICENSE]: http://github.com/lmarburger/rack-s3/blob/master/LICENSE
+For more information, see http://lmarburger.github.com/rack-s3
