@@ -51,6 +51,18 @@
          use Rack::Thumb
          run Rack::S3.new(:bucket =&gt; 'my-special-things')
        end
+
+       # Ignore all other requests
+       map '/' do
+         run lambda { |env| app.call env }
+       end
+     end
+   end
+
+   def call(env)
+     @app.call env
+   end
+ end
 </code></pre>
       </td>
       <td class=code>
@@ -61,38 +73,6 @@
       <td class=docs>
         <div class="octowrap">
           <a class="octothorpe" href="#section-2">#</a>
-        </div>
-        <pre><code>       # Ignore all other requests
-       map '/' do
-         run lambda { |env| app.call env }
-       end
-     end
-   end
-</code></pre>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre></pre></div>
-      </td>
-    </tr>
-    <tr id='section-3'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-3">#</a>
-        </div>
-        <pre><code>   def call(env)
-     @app.call env
-   end
- end
-</code></pre>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre></pre></div>
-      </td>
-    </tr>
-    <tr id='section-4'>
-      <td class=docs>
-        <div class="octowrap">
-          <a class="octothorpe" href="#section-4">#</a>
         </div>
         <p> <code>Rack::S3.new</code> needs a bucket name.</p>
 
@@ -123,10 +103,10 @@
     <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-5'>
+    <tr id='section-3'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-5">#</a>
+          <a class="octothorpe" href="#section-3">#</a>
         </div>
         <p> Say great things about <code>call</code></p>
       </td>
@@ -136,10 +116,10 @@
     <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-6'>
+    <tr id='section-4'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-6">#</a>
+          <a class="octothorpe" href="#section-4">#</a>
         </div>
         <p> Say great things about <code>_call</code></p>
       </td>
@@ -152,10 +132,10 @@
     <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-7'>
+    <tr id='section-5'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-7">#</a>
+          <a class="octothorpe" href="#section-5">#</a>
         </div>
         <p> Say great things about <code>headers</code></p>
       </td>
@@ -171,10 +151,10 @@
     <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-8'>
+    <tr id='section-6'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-8">#</a>
+          <a class="octothorpe" href="#section-6">#</a>
         </div>
         <p> Say great things about <code>path_info</code></p>
       </td>
@@ -184,10 +164,10 @@
     <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-9'>
+    <tr id='section-7'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-9">#</a>
+          <a class="octothorpe" href="#section-7">#</a>
         </div>
         <p> Say great things about <code>path</code></p>
       </td>
@@ -197,10 +177,10 @@
     <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-10'>
+    <tr id='section-8'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-10">#</a>
+          <a class="octothorpe" href="#section-8">#</a>
         </div>
         <p> Say great things about <code>object</code></p>
       </td>
@@ -210,10 +190,10 @@
     <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-11'>
+    <tr id='section-9'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-11">#</a>
+          <a class="octothorpe" href="#section-9">#</a>
         </div>
         <p> Say great things about <code>not_found</code></p>
       </td>
@@ -230,10 +210,10 @@
   <span class="kp">private</span></pre></div>
       </td>
     </tr>
-    <tr id='section-12'>
+    <tr id='section-10'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-12">#</a>
+          <a class="octothorpe" href="#section-10">#</a>
         </div>
         <p> Ssshhh&hellip; this method is private. Say great things about
  <code>establish_aws_connection</code></p>
