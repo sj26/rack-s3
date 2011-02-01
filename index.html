@@ -45,12 +45,13 @@ end
 <pre><code>Rack::S3.new :bucket =&gt; 'my-special-things'
 </code></pre>
 
-<p>Optionally, it can take your S3 credentials and establish a connection to S3
-using AWS::S3.</p>
+<p>Optionally, pass your S3 credentials to establish a connection using AWS::S3.
+If you've already called <code>AWS::S3::Base.establish_connection!</code> in your app,
+skip this step.</p>
 
 <pre><code>Rack::S3.new :bucket =&gt; 'my-special-things',
-             :access_key_id    =&gt; 'abc123',
-             :secret_access_ke =&gt; 'itsasecret'
+             :access_key_id     =&gt; 'your key here',
+             :secret_access_key =&gt; "ssshhh... it's secret"
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;rack&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;aws/s3&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;cgi&#39;</span>
