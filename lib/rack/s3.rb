@@ -44,12 +44,13 @@
 #
 #     Rack::S3.new :bucket => 'my-special-things'
 #
-# Optionally, it can take your S3 credentials and establish a connection to S3
-# using AWS::S3.
+# Optionally, pass your S3 credentials to establish a connection using AWS::S3.
+# If you've already called `AWS::S3::Base.establish_connection!` in your app,
+# skip this step.
 #
 #     Rack::S3.new :bucket => 'my-special-things',
-#                  :access_key_id    => 'abc123',
-#                  :secret_access_ke => 'itsasecret'
+#                  :access_key_id     => 'your key here',
+#                  :secret_access_key => "ssshhh... it's secret"
 require 'rack'
 require 'aws/s3'
 require 'cgi'
