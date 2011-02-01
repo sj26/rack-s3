@@ -6,7 +6,7 @@
 ### Usage
 #
 # Rack::S3 assumes it's the final endpoint. Use `run` instead of `use` to mount
-# it.
+# it. This is less than ideal. It's still a work in progress.
 #
 #     use Rack::Thumb
 #     run Rack::S3.new(:bucket => 'my-special-things')
@@ -18,10 +18,10 @@
 #
 #     class Thumber
 #       def initialize(app)
-#         @app = stack_app app
+#         @app = stacked_app app
 #       end
 #
-#       def stack_app(app)
+#       def stacked_app(app)
 #         Rack::Builder.new do
 #           map '/thumb' do
 #             use Rack::Thumb
