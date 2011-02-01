@@ -13,6 +13,6 @@ desc 'Default: run tests'
 task :default => 'test'
 
 desc 'Generate documentation'
-task :doc do
-  sh 'docco lib/rack/s3.rb && mv docs/s3.html index.html && mv docs/* . && rm -rf docs'
+task :docs do
+  sh 'docco lib/**/*.rb && mv docs/s3.html ../rack-s3-docs/index.html && mv docs/* ../rack-s3-docs/ && rm -rf docs'
 end
