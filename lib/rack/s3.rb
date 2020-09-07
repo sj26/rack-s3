@@ -1,130 +1,117 @@
-# [**Rack::S3**](https://github.com/lmarburger/rack-s3) is a middleware for
-# serving assets from an S3 bucket. Why would you want to bypass a perfectly
-# good CDN? For stacking behind other middlewares, of course! Drop it behind
-# Rack::Thumb for dynamic thumbnails without the mess of pregenerating.
-#
-### Usage
-#
-# Rack::S3 assumes it's the final endpoint. Use `run` instead of `use` to mount
-# it. This is less than ideal. It's still a work in progress.
-#
-#     use Rack::Thumb
-#     run Rack::S3.new(:bucket => 'my-special-things')
-#
-# You probably don't want it responding to _all_ requests, so mount it at a
-# given path prefix using Rack::Builder.
-#
-#     use Thumber
-#
-#     class Thumber
-#       def initialize(app)
-#         @app = stacked_app app
-#       end
-#
-#       def stacked_app(app)
-#         Rack::Builder.new do
-#           map '/thumb' do
-#             use Rack::Thumb
-#             run Rack::S3.new(:bucket => 'my-special-things')
-#           end
-#
-#           # Ignore all other requests
-#           map '/' do
-#             run lambda { |env| app.call env }
-#           end
-#         end
-#       end
-#
-#       def call(env)
-#         @app.call env
-#       end
-#     end
+# frozen_string_literal: true
 
-# `Rack::S3.new` needs a bucket name.
-#
-#     Rack::S3.new :bucket => 'my-special-things'
-#
-# Optionally, pass your S3 credentials to establish a connection using AWS::S3.
-# If you've already called `AWS::S3::Base.establish_connection!` in your app,
-# skip this step.
-#
-#     Rack::S3.new :bucket => 'my-special-things',
-#                  :access_key_id     => 'your key here',
-#                  :secret_access_key => "ssshhh... it's secret"
-require 'rack'
-require 'aws/s3'
-require 'cgi'
+require "aws-sdk-s3"
+require "rack"
 
-module Rack
-  class S3
-
-    def initialize(options={})
-      @bucket = options[:bucket]
-
-      establish_aws_connection(options[:access_key_id],
-                               options[:secret_access_key])
+# Serve static s3 content, like Rack::Files
+class Rack::S3
+  def initialize(url: nil, bucket: nil, prefix: nil, client: Aws::S3::Client.new)
+    if url
+      uri = URI.parse(url)
+      raise "Not an S3 url" unless uri.scheme == "s3"
+      bucket = uri.host
+      prefix = uri.path.delete_prefix("/")
     end
 
-    # Say great things about `call`
-    def call(env)
-      dup._call env
+    prefix = nil if prefix == "" || prefix == "/"
+
+    @bucket = bucket
+    @prefix = prefix
+    @client = client
+  end
+
+  def call(env)
+    request = Rack::Request.new(env)
+
+    # Only allow GET
+    return error(405, { "Allow" => "GET" }) unless request.get?
+
+    # Don't allow odd encodings in paths
+    path_info = Rack::Utils.unescape_path request.path_info
+    return error(400) unless Rack::Utils.valid_path?(path_info)
+
+    # Redirect when logical uri path ends with a slash, but not really
+    # i.e. mount Rack::S3.new(...), at: "blah" # => /blah => /blah/
+    if (path_info.nil? || path_info.empty? || path_info.end_with?("/")) && !request.fullpath.end_with?("/")
+      return redirect(request.fullpath + "/")
     end
 
-    # Say great things about `_call`
-    def _call(env)
-      @env = env
-      [ 200, headers, object.value ]
-    rescue AWS::S3::NoSuchKey
-      not_found
+    # Rails routes with mount "/blah" => Rack::S3.new(...), and a request to
+    # "/blah" produces a script_path of "/blah" and path_info of "/". If we
+    # serve an index.html at that uri then relative references will not work.
+    # So consult the request_path, if we can, to double check.
+    if env["REQUEST_PATH"] && request.fullpath.end_with?("/") && !env["REQUEST_PATH"].end_with?("/")
+      return redirect(request.fullpath)
     end
 
-    # Say great things about `headers`
-    def headers
-      about = object.about
+    # Reject any traversals, etc
+    clean_path = Rack::Utils.clean_path_info(path_info)
+    return error(400) unless clean_path == path_info
 
-      { 'Content-Type'   => about['content-type'],
-        'Content-Length' => about['content-length'],
-        'Etag'           => about['etag'],
-        'Last-Modified'  => about['last-modified']
-      }
+    key = path_info.delete_prefix("/")
+
+    key = "#{@prefix}/#{key}" if @prefix
+
+    # Basic index file support
+    if key.empty? || key.end_with?("/")
+      key << "index.html"
     end
 
-    # Say great things about `path_info`
-    def path_info
-      CGI.unescape @env['PATH_INFO']
+    # It would be nice to only head the object if we need to (if modified
+    # since, etc), but aws-sdk-s3 doesn't expose a nice way to get an object,
+    # use its response headers, and then stream the body -- you can only
+    # receive a response with a buffered body, or stream the body before
+    # getting the headers.
+    head = @client.head_object(bucket: @bucket, key: key)
+
+    etag = head.etag
+    if none_match = request.get_header("HTTP_IF_NONE_MATCH")
+      return not_modified if none_match == etag
     end
 
-    # Say great things about `path`
-    def path
-      path_info[0...1] == '/' ? path_info[1..-1] : path_info
+    last_modified = head.last_modified.httpdate
+    if modified_since = request.get_header("HTTP_IF_MODIFIED_SINCE")
+      return not_modified if modified_since == last_modified
     end
 
-    # Say great things about `object`
-    def object
-      @object ||= AWS::S3::S3Object.find(path, @bucket)
+    headers = {
+      "Content-Length" => head.content_length.to_s,
+      "Content-Type" => head.content_type,
+      "ETag" => etag,
+      "Last-Modified" => last_modified,
+    }
+
+    body = Enumerator.new do |enum|
+      @client.get_object(bucket: @bucket, key: key) do |chunk|
+        enum.yield chunk
+      end
     end
 
-    # Say great things about `not_found`
-    def not_found
-      body = "File not found: #{ path_info }\n"
-
-      [ 404,
-        { 'Content-Type'   => "text/plain",
-          'Content-Length' => body.size.to_s },
-        [ body ]]
-    end
+    [200, headers, body]
+  rescue Aws::S3::Errors::Forbidden
+    error(403)
+  rescue Aws::S3::Errors::NotFound
+    error(404)
+  end
 
   private
 
-    # Ssshhh... this method is private. Say great things about
-    # `establish_aws_connection`
-    def establish_aws_connection(access_key_id, secret_access_key)
-      return unless access_key_id && secret_access_key
+  def redirect(location)
+    [302, { "Location" => location }, []]
+  end
 
-      AWS::S3::Base.establish_connection!(
-        :access_key_id     => access_key_id,
-        :secret_access_key => secret_access_key)
-    end
+  def not_modified
+    [304, {}, []]
+  end
 
+  def error(status, headers = {})
+    body = Rack::Utils::HTTP_STATUS_CODES.fetch(status)
+
+    headers = {
+      "Content-Type" => "text/plain",
+      "Content-Length" => body.size.to_s,
+    }.merge!(headers)
+
+    [status, headers, [body]]
   end
 end

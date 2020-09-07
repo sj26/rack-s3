@@ -1,8 +1,24 @@
-# Rack::S3
+# Rack S3
 
-**Rack::S3** is a middleware for serving assets from an S3 bucket. Why would you
-want to bypass a perfectly good CDN? For stacking behind other middlewares, of
-course! Drop it behind Rack::Thumb for dynamic thumbnails without the mess of
-pregenerating.
+Expose an [S3][s3] bucket prefix as a [Rack][rack] application with streaming.
 
-For more information, see [http://lmarburger.github.com/rack-s3](http://lmarburger.github.com/rack-s3)
+  ![s3]: https://aws.amazon.com/s3
+  ![rack]: https://github.com/rack/rack
+
+## Usage
+
+Specify an S3 URI to mount a bucket and optional prefix:
+
+```ruby
+# config.ru
+
+run Rack::S3.new("s3://my-bucket/assets")
+```
+
+or, with options:
+
+```ruby
+# config.ru
+
+run Rack::S3.new(bucket: "my-app", prefix: "assets", client: Aws::S3::Client.new(...))
+```

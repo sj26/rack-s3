@@ -1,18 +1,7 @@
-require 'bundler'
-require 'rake/testtask'
-
+require "bundler"
 Bundler::GemHelper.install_tasks
 
-Rake::TestTask.new('test') do |t|
-  t.libs << 'test'
-  t.pattern = 'test/*_test.rb'
-  t.verbose = true
-end
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new(:spec)
 
-desc 'Default: run tests'
-task :default => 'test'
-
-desc 'Generate documentation'
-task :docs do
-  sh 'docco lib/**/*.rb && mv docs/s3.html ../rack-s3-docs/index.html && mv docs/* ../rack-s3-docs/ && rm -rf docs'
-end
+task default: :spec

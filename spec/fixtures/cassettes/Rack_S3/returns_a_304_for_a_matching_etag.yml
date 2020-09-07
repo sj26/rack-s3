@@ -1,0 +1,523 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: http://localhost:9000/rack-s3-test
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=404f9a40296f27215a3628018555aeaab33a4e552766d8219d65105f9802d5e9
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '0'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Location:
+      - "/rack-s3-test"
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FC3EC258
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: put
+    uri: http://localhost:9000/rack-s3-test/foo
+    body:
+      encoding: UTF-8
+      string: bar
+    headers:
+      Content-Type:
+      - some/type
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Expect:
+      - 100-continue
+      Content-Md5:
+      - N7UdGUp1E+RbVvZSTy1R8g==
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,
+        Signature=df40ae4d3fb046ced690788ff3208519d30c6ae01dea9a243cec062ab9a260c3
+      Content-Length:
+      - '3'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '0'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Etag:
+      - '"37b51d194a7513e45b56f6524f2d51f2"'
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FC722E68
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: put
+    uri: http://localhost:9000/rack-s3-test/index.html
+    body:
+      encoding: UTF-8
+      string: Hello <strong>world</strong>!
+    headers:
+      Content-Type:
+      - text/html
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Expect:
+      - 100-continue
+      Content-Md5:
+      - nyvL1KRjGvwm/nk2og0FRQ==
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - 7f58f86788daf2ed11a5c98d5c1a43bab5dbe3702584bc348c71c3d8926da719
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,
+        Signature=d5d8ba0f21ba25c28505f7eb6f0b447d2e69aca86a6621d6055ee10c79938ca0
+      Content-Length:
+      - '29'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '0'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Etag:
+      - '"9f2bcbd4a4631afc26fe7936a20d0545"'
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FCA976C0
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: put
+    uri: http://localhost:9000/rack-s3-test/prefix/foo
+    body:
+      encoding: UTF-8
+      string: prefixed
+    headers:
+      Content-Type:
+      - some/type
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Expect:
+      - 100-continue
+      Content-Md5:
+      - iFNLQdJUHoDUnhhBluheJg==
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - 3c424ff7cf6f428675241fa35b15c8509c49f3db834d97a0b3b8f6b42d9305ff
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,
+        Signature=6421b04131ac558b7f8bb31a013c7fa9590bf2cfb008b6a6b3cf185dbf1b1302
+      Content-Length:
+      - '8'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '0'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Etag:
+      - '"88534b41d2541e80d49e184196e85e26"'
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FCE03660
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: put
+    uri: http://localhost:9000/rack-s3-test/prefix/index.html
+    body:
+      encoding: UTF-8
+      string: Hello <strong>prefixed</strong>!
+    headers:
+      Content-Type:
+      - text/html
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Expect:
+      - 100-continue
+      Content-Md5:
+      - 2Iv14JSJh3Bx8UTAX6NP2A==
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - 573a1a974ac8cb2b6220238de257866d36e7bb3fa9c4761a007a6ccc771b9671
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,
+        Signature=1826c9bdd000e36374ffac543ec8af3d140236de628c400efddce55cce064f9d
+      Content-Length:
+      - '32'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '0'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Etag:
+      - '"d88bf5e09489877071f144c05fa34fd8"'
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FD17D4A8
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: head
+    uri: http://localhost:9000/rack-s3-test/foo
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=8a74c50a396f7cc615bf20d6dc4b77782609ea353806b9290eba14544df49fc7
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '3'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Content-Type:
+      - some/type
+      Etag:
+      - '"37b51d194a7513e45b56f6524f2d51f2"'
+      Last-Modified:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FD4CEE68
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: get
+    uri: http://localhost:9000/rack-s3-test?encoding-type=url
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=41b1c6148b587dceefb8bf66ac455d268be45a6115ad8bbcd1ec0b506147325c
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '1559'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Content-Type:
+      - application/xml
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FD7EB498
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>rack-s3-test</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><Delimiter></Delimiter><IsTruncated>false</IsTruncated><Contents><Key>foo</Key><LastModified>2020-09-07T08:39:21.527Z</LastModified><ETag>&#34;37b51d194a7513e45b56f6524f2d51f2&#34;</ETag><Size>3</Size><Owner><ID>02d6176db174dc93cb1b899f7c6078f08654445fe8cf1b6ce98d8855f66bdbf4</ID><DisplayName></DisplayName></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>index.html</Key><LastModified>2020-09-07T08:39:21.531Z</LastModified><ETag>&#34;9f2bcbd4a4631afc26fe7936a20d0545&#34;</ETag><Size>29</Size><Owner><ID>02d6176db174dc93cb1b899f7c6078f08654445fe8cf1b6ce98d8855f66bdbf4</ID><DisplayName></DisplayName></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>prefix/foo</Key><LastModified>2020-09-07T08:39:21.535Z</LastModified><ETag>&#34;88534b41d2541e80d49e184196e85e26&#34;</ETag><Size>8</Size><Owner><ID>02d6176db174dc93cb1b899f7c6078f08654445fe8cf1b6ce98d8855f66bdbf4</ID><DisplayName></DisplayName></Owner><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>prefix/index.html</Key><LastModified>2020-09-07T08:39:21.538Z</LastModified><ETag>&#34;d88bf5e09489877071f144c05fa34fd8&#34;</ETag><Size>32</Size><Owner><ID>02d6176db174dc93cb1b899f7c6078f08654445fe8cf1b6ce98d8855f66bdbf4</ID><DisplayName></DisplayName></Owner><StorageClass>STANDARD</StorageClass></Contents><EncodingType>url</EncodingType></ListBucketResult>
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: post
+    uri: http://localhost:9000/rack-s3-test?delete
+    body:
+      encoding: UTF-8
+      string: |
+        <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+          <Object>
+            <Key>foo</Key>
+          </Object>
+          <Object>
+            <Key>index.html</Key>
+          </Object>
+          <Object>
+            <Key>prefix/foo</Key>
+          </Object>
+          <Object>
+            <Key>prefix/index.html</Key>
+          </Object>
+        </Delete>
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Expect:
+      - 100-continue
+      Content-Md5:
+      - HLtXuPYr5Xe7UqCr8iqxrQ==
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - 933035c1a9bd261d148bb40cbf5b7352dd524ad9ec50b064571c033df721b553
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=content-md5;host;user-agent;x-amz-content-sha256;x-amz-date,
+        Signature=ecdcbaf1f445915833bc399fe9f3b52fda411e5d424052da73aaba926126c2e8
+      Content-Length:
+      - '263'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '276'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Content-Type:
+      - application/xml
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FDC31868
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DeleteResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Deleted><Key>foo</Key></Deleted><Deleted><Key>index.html</Key></Deleted><Deleted><Key>prefix/foo</Key></Deleted><Deleted><Key>prefix/index.html</Key></Deleted></DeleteResult>
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+- request:
+    method: delete
+    uri: http://localhost:9000/rack-s3-test
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.105.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.79.1
+      Host:
+      - localhost:9000
+      X-Amz-Date:
+      - 20200907T083921Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=lolololol/20200907/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=340ebb4d67ad0867f3f4e1cd31482dbeb2db5e12e86ee85f5837eae599022b20
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Server:
+      - MinIO/RELEASE.2020-08-27T05-16-20Z
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 163273A2FE11A1E0
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Mon, 07 Sep 2020 08:39:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Mon, 07 Sep 2020 08:39:21 GMT
+recorded_with: VCR 6.0.0
