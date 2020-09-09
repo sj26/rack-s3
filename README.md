@@ -22,3 +22,5 @@ or, with options:
 
 run Rack::S3.new(bucket: "my-app", prefix: "assets", client: Aws::S3::Client.new(...))
 ```
+
+It'll look for "index.html" files at the root, or at a url ending with a slash.
