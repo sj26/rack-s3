@@ -2,8 +2,8 @@
 
 Expose an [S3][s3] bucket prefix as a [Rack][rack] application with streaming.
 
-  ![s3]: https://aws.amazon.com/s3
-  ![rack]: https://github.com/rack/rack
+  [s3]: https://aws.amazon.com/s3
+  [rack]: https://github.com/rack/rack
 
 ## Usage
 
